@@ -85,4 +85,65 @@ $(document).ready(function () {
     map.addLayer(line);
     map.addLayer(point);
 /** -------------------------------------------- */
+
+/** Create custom controls for drawing features, modifying features and removing features */
+    window.app = {};
+    var app = window.app;
+
+    //Tools panel toggle control
+    app.PanelBtn = function(opt_options) {
+        var options = opt_options || {};
+        var btn = document.createElement('button');
+        btn.setAttribute('type', 'button');
+        btn.setAttribute('id', 'panel-button');
+        btn.className = 'panel-button';
+        btn.innerHTML = '&#x25BC;';
+
+        ol.control.Control.call(this, {
+            element: btn,
+            target: options.target
+        });
+    };
+    ol.inherits(app.PanelBtn, ol.control.Control);
+    map.addControl(new app.PanelBtn());
+
+    // Draw, modify, delete tools
+    app.ToolsPanel = function (opt_options) {
+        var options = opt_options || {};
+        var panel = document.createElement('div');
+        panel.setAttribute('id', 'panel');
+        panel.className = 'panel';
+
+        var drawBtn = document.createElement('button');
+        drawBtn.className = 'tool-btn';
+        drawBtn.setAttribute('type','button');
+        drawBtn.setAttribute('id','draw-tool');
+        drawBtn.innerHTML = '<span class="glyphicon glyphicon-plus"></span>';
+
+        var modifyBtn = document.createElement('button');
+        modifyBtn.className = 'tool-btn';
+        modifyBtn.setAttribute('type','button');
+        modifyBtn.setAttribute('id','modify-tool');
+        modifyBtn.innerHTML = '<span class="glyphicon glyphicon-pencil"></span>';
+
+        var deleteBtn = document.createElement('button');
+        deleteBtn.className = 'tool-btn';
+        deleteBtn.setAttribute('type','button');
+        deleteBtn.setAttribute('id','delete-tool');
+        deleteBtn.innerHTML = '<span class="glyphicon glyphicon-minus"></span>';
+
+        panel.appendChild(drawBtn);
+        panel.appendChild(modifyBtn);
+        panel.appendChild(deleteBtn);
+
+        ol.control.Control.call(this, {
+            element: panel,
+            target: options.target
+        });
+    };
+
+    ol.inherits(app.ToolsPanel, ol.control.Control);
+    map.addControl(new app.ToolsPanel());
+/** -------------------------------------------- */
+
 });
