@@ -1,0 +1,54 @@
+html,body {
+    margin: 0;
+    padding: 0;
+}
+
+.mouse-position {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    border-radius: 4px;
+    padding: 0 4px 0 4px;
+    font-family: "Comic Sans MS", serif;
+    color: white;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.mouse-position:hover {
+    background: rgba(0,0,0,0.9);
+}
+
+.ol-control {
+    position: absolute;
+    background-color: rgba(255,255,255,0) !important;
+    border-radius: 4px;
+    padding: 2px;
+}
+.ol-control:hover {
+    background-color: rgba(255,255,255,0) !important;
+}
+
+.ol-scale-line {
+    background: rgba(0,0,0,0.6) !important;
+    border-radius: 4px;
+    bottom: 8px;
+    left: 8px;
+    padding: 2px;
+    position: absolute;
+}
+
+.ol-scale-line:hover {
+    background: rgba(0,0,0,0.9) !important;
+}
+
+.ol-control button {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 100% !important;
+    background: rgba(0,0,0,0.5) !important;
+}
+
+.ol-control button:hover, .ol-control button:active  {
+    background: rgba(0,0,0,0.9) !important;
+    outline: none;
+}
