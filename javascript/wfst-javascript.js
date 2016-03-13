@@ -32,4 +32,38 @@ $(document).ready(function () {
    });
 /** -------------------------------------------- */
 
+/** Defining WFS sources and adding new layers to the map */
+    var polygonSource = new ol.source.Vector({
+        url: 'http://localhost:8080/geoserver/wfs?' +
+             'service=WFS&' +
+             'version=1.1.0&' +
+             'request=GetFeature&' +
+             'typeNames=wfst-test:polygon&' +
+             'outputFormat=json&' +
+             'srsname=EPSG:3857',
+        format: new ol.format.GeoJSON()
+    });
+
+    var lineSource = new ol.source.Vector({
+        url: 'http://localhost:8080/geoserver/wfs?' +
+        'service=WFS&' +
+        'version=1.1.0&' +
+        'request=GetFeature&' +
+        'typeNames=wfst-test:line&' +
+        'outputFormat=json&' +
+        'srsname=EPSG:3857',
+        format: new ol.format.GeoJSON()
+    });
+
+    var pointSource = new ol.source.Vector({
+        url: 'http://localhost:8080/geoserver/wfs?' +
+        'service=WFS&' +
+        'version=1.1.0&' +
+        'request=GetFeature&' +
+        'typeNames=wfst-test:point&' +
+        'outputFormat=json&' +
+        'srsname=EPSG:3857',
+        format: new ol.format.GeoJSON()
+    });
+/** -------------------------------------------- */
 });
