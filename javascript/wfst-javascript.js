@@ -65,5 +65,24 @@ $(document).ready(function () {
         'srsname=EPSG:3857',
         format: new ol.format.GeoJSON()
     });
+
+    var polygon = new ol.layer.Vector({
+        preload: Infinity,
+        source: polygonSource
+    });
+
+    var line = new ol.layer.Vector({
+        preload: Infinity,
+        source: lineSource
+    });
+
+    var point = new ol.layer.Vector({
+        preload: Infinity,
+        source: pointSource
+    });
+
+    map.addLayer(polygon);
+    map.addLayer(line);
+    map.addLayer(point);
 /** -------------------------------------------- */
 });

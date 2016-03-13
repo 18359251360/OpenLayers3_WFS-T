@@ -1,6 +1,7 @@
 html,body {
     margin: 0;
     padding: 0;
+    font-family: "Comic Sans MS", serif !important;
 }
 
 .mouse-position {
@@ -24,8 +25,9 @@ html,body {
     border-radius: 4px;
     padding: 2px;
 }
-.ol-control:hover {
+.ol-control:hover, .ol-control:active{
     background-color: rgba(255,255,255,0) !important;
+    outline-color: rgba(255,255,255,0) !important;
 }
 
 .ol-scale-line {
@@ -50,5 +52,5 @@ html,body {
 
 .ol-control button:hover, .ol-control button:active  {
     background: rgba(0,0,0,0.9) !important;
-    outline: none;
+    outline-color: rgba(255,255,255,0) !important;
 }
