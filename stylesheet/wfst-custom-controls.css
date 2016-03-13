@@ -1,0 +1,59 @@
+.panel-button {
+    position: absolute !important;
+    top: 0 !important;
+    right: calc(50% - 25px);
+    height: 30px !important;
+    width: 50px !important;
+    border-bottom-left-radius: 15px !important;
+    border-bottom-right-radius: 15px !important;
+    background-color: rgba(0,0,0,0.5);
+    border: 0 !important;
+    color: white !important;
+}
+
+.panel-button:hover, .panel-button:focus {
+    outline: none !important;
+    background-color: rgba(0,0,0,0.9);
+}
+
+.tool-btn {
+    position: absolute;
+    width: 40px !important;
+    height: 40px !important;
+    border: 0 !important;
+    border-radius: 100% !important;
+    top: 4px;
+    background-color: rgba(255,255,255,0.7);
+}
+
+#draw-tool {
+    right: calc(50% + 70px);
+}
+
+#modify-tool {
+    right: calc(50% - 20px);
+}
+
+#delete-tool {
+    right: calc(50% - 110px);
+}
+
+.tool-btn:hover, .tool-btn:focus {
+    outline: none !important;
+    background-color: white !important;
+}
+
+.panel {
+    display: none;
+    position: absolute;
+    top:0 !important;
+    right: calc(50% - 150px);
+    width: 300px !important;
+    height: 50px !important;
+    border: 0 !important;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 20px !important;
+    border-bottom-right-radius: 20px !important;
+    background-color: rgba(0,0,0,0.5) !important;
+}
