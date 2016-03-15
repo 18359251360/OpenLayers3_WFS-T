@@ -1,6 +1,6 @@
 .panel-button {
     position: absolute !important;
-    top: 0 !important;
+    top: 0;
     right: calc(50% - 25px);
     height: 30px !important;
     width: 50px !important;
@@ -11,10 +11,15 @@
     color: white !important;
 }
 
-.panel-button:hover, .panel-button:focus {
-    outline: none !important;
-    background-color: rgba(0,0,0,0.9);
+.panel-button:hover  {
+    background-color: rgba(0,0,0,0.9) !important;
 }
+
+.panel-button:focus {
+    background-color: rgba(0,0,0,0.5);
+    outline: none !important;
+}
+
 
 .tool-btn {
     position: absolute;
@@ -38,15 +43,18 @@
     right: calc(50% - 110px);
 }
 
-.tool-btn:hover, .tool-btn:focus {
-    outline: none !important;
+.tool-btn:hover {
     background-color: white !important;
 }
 
+.tool-btn:focus {
+    outline: none !important;
+    background-color: white;
+}
+
 .panel {
-    display: none;
     position: absolute;
-    top:0 !important;
+    top: -50px;
     right: calc(50% - 150px);
     width: 300px !important;
     height: 50px !important;
@@ -56,4 +64,8 @@
     border-bottom-left-radius: 20px !important;
     border-bottom-right-radius: 20px !important;
     background-color: rgba(0,0,0,0.5) !important;
+}
+
+.panel:hover {
+    background-color: rgba(0,0,0,0.7) !important;
 }

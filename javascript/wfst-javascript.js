@@ -90,14 +90,14 @@ $(document).ready(function () {
     window.app = {};
     var app = window.app;
 
-    //Tools panel toggle control
+    //Tools panel toggle control button
     app.PanelBtn = function(opt_options) {
         var options = opt_options || {};
         var btn = document.createElement('button');
         btn.setAttribute('type', 'button');
         btn.setAttribute('id', 'panel-button');
         btn.className = 'panel-button';
-        btn.innerHTML = '&#x25BC;';
+        btn.innerHTML = '<span class="glyphicon glyphicon-chevron-down"></span>';
 
         ol.control.Control.call(this, {
             element: btn,
@@ -107,7 +107,7 @@ $(document).ready(function () {
     ol.inherits(app.PanelBtn, ol.control.Control);
     map.addControl(new app.PanelBtn());
 
-    // Draw, modify, delete tools
+    // Draw, modify, delete tools within panel
     app.ToolsPanel = function (opt_options) {
         var options = opt_options || {};
         var panel = document.createElement('div');
@@ -146,4 +146,29 @@ $(document).ready(function () {
     map.addControl(new app.ToolsPanel());
 /** -------------------------------------------- */
 
+/** Tools panel toggle functionality */
+    var panelTools = $('#panel');
+    var panelButton = $('#panel-button');
+    panelButton.click(function () {
+        if (panelTools.css('top') === '-50px') {
+            panelButton.animate({
+                top: '50px'
+            }, {duration: '500', queue: false});
+
+            panelTools.animate({
+                top: '0'
+            }, {duration: '500', queue: false});
+            panelButton.html('<span class="glyphicon glyphicon-chevron-up"></span>');
+        } else {
+            panelButton.animate({
+                top: '0'
+            }, {duration: '500', queue: false});
+
+            panelTools.animate({
+                top: '-50px'
+            }, {duration: '500', queue: false});
+            panelButton.html('<span class="glyphicon glyphicon-chevron-down"></span>');
+        }
+    });
+/** -------------------------------------------- */
 });
