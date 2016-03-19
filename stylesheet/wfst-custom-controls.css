@@ -32,15 +32,15 @@
 }
 
 #draw-tool {
-    right: calc(50% + 70px);
+    left: 10px !important;
 }
 
 #modify-tool {
-    right: calc(50% - 20px);
+    left: 60px;
 }
 
 #delete-tool {
-    right: calc(50% - 110px);
+    right: 150px;
 }
 
 .tool-btn:hover {
@@ -69,3 +69,12 @@
 .panel:hover {
     background-color: rgba(0,0,0,0.7) !important;
 }
+
+#selectType {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    width: 120px !important;
+    border-radius: 20px;
+}
+
