@@ -21,6 +21,7 @@ $(document).ready(function () {
        controls: ol.control.defaults().extend([
            new ol.control.ScaleLine(),
            new ol.control.MousePosition({
+               undefinedHTML: 'None',
                coordinateFormat: ol.coordinate.createStringXY(2),
                className: 'mouse-position'
            })
@@ -132,9 +133,31 @@ $(document).ready(function () {
         deleteBtn.setAttribute('id','delete-tool');
         deleteBtn.innerHTML = '<span class="glyphicon glyphicon-minus"></span>';
 
+        var selectMenu = document.createElement('select');
+        selectMenu.setAttribute('id','selectType');
+        selectMenu.className = 'form-control';
+
+        var optionPolygon = document.createElement('option');
+        optionPolygon.setAttribute('value','polygon');
+        optionPolygon.innerHTML = 'Polygon';
+
+        var optionLine = document.createElement('option');
+        optionLine.setAttribute('value','line');
+        optionLine.innerHTML = 'LineString';
+
+        var optionPoint = document.createElement('option');
+        optionPoint.setAttribute('value','point');
+        optionPoint.innerHTML = 'Point';
+
+        selectMenu.appendChild(optionPolygon);
+        selectMenu.appendChild(optionLine);
+        selectMenu.appendChild(optionPoint);
+
+
         panel.appendChild(drawBtn);
         panel.appendChild(modifyBtn);
         panel.appendChild(deleteBtn);
+        panel.appendChild(selectMenu);
 
         ol.control.Control.call(this, {
             element: panel,
@@ -170,5 +193,86 @@ $(document).ready(function () {
             panelButton.html('<span class="glyphicon glyphicon-chevron-down"></span>');
         }
     });
+/** -------------------------------------------- */
+
+/** Adding functionality to our tools */
+    //Draw
+    $('#selectType').change(function () {
+        map.getInteractions().clear();
+    });
+    $('#draw-tool').click(function () {
+        var type;
+        var source;
+        switch($('#selectType').val()) {
+            case 'polygon':
+                type = 'Polygon';
+                source = polygonSource;
+                break;
+            case 'line':
+                type = 'LineString';
+                source = lineSource;
+                break;
+            case 'point':
+                type = 'Point';
+                source = pointSource;
+                break;
+            default:
+                console.log('Nothing selected!!!');
+                break;
+        }
+
+        map.getInteractions().clear();
+        var draw = new ol.interaction.Draw({
+            source: source,
+            type: type,
+            geometryName: 'geometry'
+        });
+        map.addInteraction(draw);
+
+        draw.on('drawend', function (e) {
+            var geomType = e.feature.getGeometry().getType().toString().toLowerCase();
+            transact('insert', e.feature, geomType)
+        });
+
+    });
+    //Modify
+    //Delete
+/** -------------------------------------------- */
+
+/** TRANSACTION FUNCTION */
+    function transact(transType, feat, geomType) {
+        if (geomType === 'linestring') {
+            geomType = 'line';
+        }
+        var formatWFS = new ol.format.WFS();
+        var formatGML = new ol.format.GML({
+            featureNS: 'http://lukag/wfst-test.com',
+            featureType: geomType,
+            srsName: 'EPSG:3857'
+        });
+        switch (transType) {
+            case 'insert':
+                node = formatWFS.writeTransaction([feat], null, null, formatGML);
+                break;
+            case 'update':
+                node = formatWFS.writeTransaction(null, [feat], null, formatGML);
+                break;
+            case 'delete':
+                node = formatWFS.writeTransaction(null, null, [feat], formatGML);
+                break;
+        }
+
+        s = new XMLSerializer();
+        str = s.serializeToString(node);
+        console.log(str);
+        $.ajax('http://localhost:8080/geoserver/wfs',{
+            type: 'POST',
+            dataType: 'xml',
+            processData: false,
+            contentType: 'text/xml',
+            data: str
+        }).done();
+
+    }
 /** -------------------------------------------- */
 });
