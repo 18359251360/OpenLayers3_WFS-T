@@ -200,27 +200,31 @@ $(document).ready(function () {
     $('#selectType').change(function () {
         map.getInteractions().clear();
     });
-    $('#draw-tool').click(function () {
-        var type;
-        var source;
+
+    function defineType() {
+        var geom_type;
+        var geom_source;
         switch($('#selectType').val()) {
             case 'polygon':
-                type = 'Polygon';
-                source = polygonSource;
-                break;
+                geom_type = 'Polygon';
+                geom_source = polygonSource;
+                return [geom_type, geom_source];
             case 'line':
-                type = 'LineString';
-                source = lineSource;
-                break;
+                geom_type = 'LineString';
+                geom_source = lineSource;
+                return [geom_type, geom_source];
             case 'point':
-                type = 'Point';
-                source = pointSource;
-                break;
+                geom_type = 'Point';
+                geom_source = pointSource;
+                return [geom_type, geom_source];
             default:
                 console.log('Nothing selected!!!');
-                break;
         }
+    }
 
+    $('#draw-tool').click(function () {
+        var type = defineType()[0];
+        var source = defineType()[1];
         map.getInteractions().clear();
         var draw = new ol.interaction.Draw({
             source: source,
@@ -236,6 +240,24 @@ $(document).ready(function () {
 
     });
     //Modify
+    $('#modify-tool').click(function () {
+        map.getInteractions().clear();
+        var select = new ol.interaction.Select();
+        var modify = new ol.interaction.Modify({
+            features: select.getFeatures()
+        });
+        map.addInteraction(select);
+        map.addInteraction(modify);
+
+        modify.on('modifyend', function (e) {
+            var geomType = e.features.getArray()[0].getGeometry().getType().toLowerCase();
+            transact('update',e.features.getArray()[0], geomType);
+        });
+
+    });
+
+
+
     //Delete
 /** -------------------------------------------- */
 
