@@ -39,7 +39,7 @@ $(document).ready(function () {
              'service=WFS&' +
              'version=1.1.0&' +
              'request=GetFeature&' +
-             'typeNames=wfst-test:polygon&' +
+             'typeNames=wfst-test:polygon&' + // Here goes your-workspace:your-layer
              'outputFormat=json&' +
              'srsname=EPSG:3857',
         format: new ol.format.GeoJSON()
@@ -50,7 +50,7 @@ $(document).ready(function () {
         'service=WFS&' +
         'version=1.1.0&' +
         'request=GetFeature&' +
-        'typeNames=wfst-test:line&' +
+        'typeNames=wfst-test:line&' + // Here goes your-workspace:your-layer
         'outputFormat=json&' +
         'srsname=EPSG:3857',
         format: new ol.format.GeoJSON()
@@ -61,7 +61,7 @@ $(document).ready(function () {
         'service=WFS&' +
         'version=1.1.0&' +
         'request=GetFeature&' +
-        'typeNames=wfst-test:point&' +
+        'typeNames=wfst-test:point&' + // Here goes your-workspace:your-layer
         'outputFormat=json&' +
         'srsname=EPSG:3857',
         format: new ol.format.GeoJSON()
@@ -239,6 +239,7 @@ $(document).ready(function () {
         });
 
     });
+
     //Modify
     $('#modify-tool').click(function () {
         map.getInteractions().clear();
@@ -256,9 +257,39 @@ $(document).ready(function () {
 
     });
 
-
-
     //Delete
+    $('#delete-tool').click(function () {
+        map.getInteractions().clear();
+        var select = new ol.interaction.Select();
+        map.addInteraction(select);
+        select.on('select', function (e) {
+            if(select.getFeatures().getArray().length == 0) {
+                console.log('null');
+            } else {
+                var geomType = e.target.getFeatures().getArray()[0].getGeometry().getType().toLowerCase();
+                transact('delete', e.target.getFeatures().getArray()[0], geomType);
+                var f;
+                switch(geomType) {
+                    case 'polygon':
+                        f = polygonSource.getFeatureById(e.target.getFeatures().getArray()[0].getId());
+                        polygonSource.removeFeature(f);
+                        e.target.getFeatures().clear();
+                        break;
+                    case 'linestring':
+                        f = lineSource.getFeatureById(e.target.getFeatures().getArray()[0].getId());
+                        lineSource.removeFeature(f);
+                        break;
+                    case 'point':
+                        f = pointSource.getFeatureById(e.target.getFeatures().getArray()[0].getId());
+                        pointSource.removeFeature(f);
+                        break;
+                    default:
+                        console.log('Type of feature unknown!!!');
+                }
+
+            }
+        });
+    });
 /** -------------------------------------------- */
 
 /** TRANSACTION FUNCTION */
@@ -268,7 +299,7 @@ $(document).ready(function () {
         }
         var formatWFS = new ol.format.WFS();
         var formatGML = new ol.format.GML({
-            featureNS: 'http://lukag/wfst-test.com',
+            featureNS: 'http://lukag/wfst-test.com', // Your namespace
             featureType: geomType,
             srsName: 'EPSG:3857'
         });
