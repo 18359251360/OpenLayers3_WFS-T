@@ -278,10 +278,12 @@ $(document).ready(function () {
                     case 'linestring':
                         f = lineSource.getFeatureById(e.target.getFeatures().getArray()[0].getId());
                         lineSource.removeFeature(f);
+                        e.target.getFeatures().clear();
                         break;
                     case 'point':
                         f = pointSource.getFeatureById(e.target.getFeatures().getArray()[0].getId());
                         pointSource.removeFeature(f);
+                        e.target.getFeatures().clear();
                         break;
                     default:
                         console.log('Type of feature unknown!!!');
